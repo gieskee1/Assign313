@@ -1,0 +1,445 @@
+<!DOCTYPE html >
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <script>src="https://maps.googleapis.com/maps/api/js"</script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"> </script>
+    <title>Maps</title>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 25;
+            padding: 25;
+        }
+		.tabledata{
+			float: right;
+			margin: 0 10px 0 0;
+		}
+		span{
+			padding: 10px;
+			color: red;
+			font-size: 12px;
+		}
+		#leftSide
+		{
+			 height: 500px;
+			 width: 20%;
+			 background: white;
+			 float: left;
+			 display: none;    
+			 color: black;
+			 font-size: xx-large;
+		}
+		#click
+		{
+			 height: 25px;
+			 width: 25px;
+			 background: aqua;
+			 float: left; 
+			 margin-top: 20px;
+		}
+		#top-right{
+			margin: 10px;
+			padding: 0, 10px, 0, 0;
+			float:right;
+		}
+		#sidepanel
+		{
+		
+		}
+		.container{
+			height: 85%;
+		}
+    </style>
+</head>
+
+<body>
+
+
+<div class="container">
+<div id="leftSide">
+		<div id="top-right"><</div>
+		<p>Something here from google </p>
+	
+</div>
+<div id="map">
+
+
+</div>
+</div>
+<script>
+//var testVal = "Canada";
+</script>
+<form id="myDiv" name="myDiv">
+<div id="tabledata" name="tabledata"></div>
+Country
+<!--<button type="submit" >Submit</button>-->
+</form>
+<script>
+		 $("#top-right").on("click", function (event) {
+			$("#leftSide").animate({
+			width: 'toggle'
+			}, 500);
+		 });
+		$('#click').click(function() {
+		  $("#leftSide").animate({
+			width: 'toggle'
+		  }, 500);
+		});
+
+function doNothing() {}
+function downloadUrl(url, callback) {
+        var request = window.ActiveXObject ?
+            new ActiveXObject('Microsoft.XMLHTTP') :
+            new XMLHttpRequest;
+
+        request.onreadystatechange = function() {
+            if (request.readyState == 4) {
+                request.onreadystatechange = doNothing;
+                callback(request, request.status);
+            }
+        };
+
+        request.open('GET', url, true);
+        request.send(null);
+ }
+/*function testResults (form) {
+    var TestVar = form.inputbox.value;
+    alert ("You typed: " + TestVar);
+}*/
+
+//downloadUrl(urlSearch, function(data) {
+var myDiv = document.getElementById("myDiv");
+
+downloadUrl("getCountries.php", function(data) {
+	var xml = data.responseXML;
+    var countries = xml.documentElement.getElementsByTagName('marker');
+	var countryArray = ["Select One"];
+	 Array.prototype.forEach.call(countries, function(countryElem) {
+		var el = countryElem.getAttribute('country');
+		if (el != ""){countryArray.push(el);}
+	 });
+	 var selectList = document.createElement("select");
+	selectList.id = "mySelect";
+	selectList.name = "country";
+	selectList.style.margin = "10px";
+	myDiv.appendChild(selectList);
+	//Create and append the options
+	for (var i = 0; i < countryArray.length; i++) {
+		var option = document.createElement("option");
+		option.value = countryArray[i];
+		option.text = countryArray[i];
+		selectList.appendChild(option);
+	}
+	var countryErrorMsg = document.createElement("span");
+	myDiv.appendChild(countryErrorMsg);
+	
+	myDiv.appendChild(document.createElement("BR"));
+		
+	var checkType = document.createElement("input");
+	checkType.setAttribute('defaultChecked', 'defaultChecked');
+	checkType.checked=true;
+	checkType.id = "assetType"
+	checkType.type = "checkbox";
+	checkType.style.margin = "0px 10px 10px 0 ";
+	checkType.name = "assetType";
+	checkType.value = "Switch";
+	var label = document.createElement('label')
+	label.htmlFor = "id";
+	label.appendChild(document.createTextNode('Switch'));
+	myDiv.appendChild(checkType);
+	myDiv.appendChild(label);
+	
+	var checkType2 = document.createElement("input");
+	checkType2.setAttribute('defaultChecked', 'defaultChecked');
+	checkType2.checked=true;
+	checkType2.id = "assetType"
+	checkType2.type = "checkbox";
+	checkType2.name = "assetType";
+	checkType2.value = "Storage Device";
+	checkType2.style.margin = "0px 10px 10px 10px";
+	var label2 = document.createElement('label')
+	label2.htmlFor = "id";
+	label2.appendChild(document.createTextNode('Storage Device'));
+	myDiv.appendChild(checkType2);
+	myDiv.appendChild(label2);
+	
+	var AssetErrorMsg = document.createElement("span");
+	myDiv.appendChild(AssetErrorMsg);
+	
+	//create submit button
+	var button = document.createElement("button");
+	button.innerHTML = "Submit";
+	var br = document.createElement("BR");
+	//document.write("<br>");
+	myDiv.appendChild(br);
+	myDiv.appendChild(button);
+	
+	var noneFoundErrorMsg = document.createElement("span");
+	noneFoundErrorMsg.id = "errormsg";
+	myDiv.appendChild(noneFoundErrorMsg);
+	
+	button.addEventListener ("click", function() {
+	//	initMap();
+		//testResults(this.form);
+		//document.myDiv.submit();
+		assetTypeSelectArr = document.getElementsByName("assetType");
+		switch1 = 0;
+		storage1 = 0;
+		if(assetTypeSelectArr[0].checked){
+			switch1 = assetTypeSelectArr[0].value;
+		}
+		if(assetTypeSelectArr[1].checked){
+			storage1 = assetTypeSelectArr[1].value;
+		}
+		//assetTypeSelect = checkType.value;
+		countrySelect = selectList.value;
+		
+		event.preventDefault(); //do not refresh page
+
+		if(switch1 == 0 && storage1 == 0){
+			AssetErrorMsg.innerHTML = "*must select at least one asset type";
+		}else{
+			AssetErrorMsg.innerHTML = "";
+		}
+		if(countrySelect == "Select One"){
+			countryErrorMsg.innerHTML = "*must select a country";
+		}else{
+			countryErrorMsg.innerHTML = "";
+			initMap();
+		}
+		
+		///handleFireButton();
+	});
+	//myDiv.padding = "50px";
+});
+
+
+    var customLabel = {
+        restaurant: {
+            label: 'R'
+        },
+        bar: {
+            label: 'B'
+        },
+		test: {
+			label: 'T'
+		}
+    };
+
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: new google.maps.LatLng(20, 0),
+            zoom: 3
+        });
+        var infoWindow = new google.maps.InfoWindow;
+		
+			var thisvar = document.getElementById("errormsg");
+			thisvar.innerHTML = "";
+        // Change this depending on the name of your PHP or XML file
+		//var urlSearch = document.getElementById('search_name').value();
+		//var testEl = document.getElementById("mySelect").value;
+		//var url = window.location.href 
+		//var captured = /country=([^&]+)/.exec(url)[1]; 
+		//var result = captured ? captured : '-1';
+		assetType = "";
+		var isSwitch = 0;
+		var isStorage = 0;
+		//var assetType2 = storage1;
+		if (typeof switch1 !== 'undefined'){
+			if(switch1 != 0){
+				isSwitch = 1;
+				assetType = switch1;
+			}
+		}
+		if(typeof storage1 !== 'undefined'){
+			if(storage1 != 0){
+				isStorage = 1;
+				assetType = storage1;
+			}
+		}
+
+		if (typeof countrySelect !== 'undefined'){
+			var urlSearch = "db_connect.php?country=" + countrySelect;
+			if((isSwitch == 1) ^ (isStorage == 1)){
+			urlSearch = "db_connect_assetType.php?country=" + countrySelect + "&assetType=" + assetType;
+			}
+			else if (isSwitch == 0 && isStorage == 0){
+				return;
+			}
+		}
+		else {
+			return;
+		}
+        downloadUrl(urlSearch, function(data) {
+            var xml = data.responseXML;
+            var markers = xml.documentElement.getElementsByTagName('marker');
+			if(markers.length == 0){
+				//alert("No assets found");
+				var thisvar = document.getElementById("errormsg");
+				thisvar.innerHTML = "No assets found";
+				//myDiv.noneFoundErrorMsg.innerHTML("No assets found");
+			}else{
+			//map.setCenter(new google.maps.LatLng(markers[0].getAttribute('lat'), markers[0].getAttribute('lng')));
+			var array = findCenter(markers);
+			map.setCenter(array[0]); //center map using findCenter return value
+			//map.setMaxZoom(5);
+			//var x = findCenter(markers);
+			var bounds = new google.maps.LatLngBounds();
+			var latb = 0;
+			var longb = 0;
+			var curLoc;
+			for (var cur = 0; cur < markers.length; cur++) {	
+				latb = markers[0].getAttribute('lat');
+				longb =  markers[0].getAttribute('lng');
+				curLoc = new google.maps.LatLng(markers[cur].getAttribute('lat'), markers[cur].getAttribute('lng'));
+				bounds.extend(curLoc);
+			}
+			map.fitBounds(bounds);
+			if(markers.length == 1){
+				map.setZoom(5);
+			}
+			//map.setZoom(array[1]);
+			//map.panTo(new google.maps.LatLng(markers[0].getAttribute('lat'), markers[0].getAttribute('lng')));
+			var listenerHash = {"key":"value"};
+			var listenerNum = 0;
+			}
+            Array.prototype.forEach.call(markers, function(markerElem) {
+				listenerNum++;
+                var name = markerElem.getAttribute('name');
+				var pic = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+				if (name > 1){
+					pic = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+				}
+				if (name > 50){
+					pic = 'http://maps.google.com/mapfiles/ms/icons/orange-dot.png';
+				}
+				if (name > 100){
+					pic = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+
+				}
+                var address = markerElem.getAttribute('address');
+				var state = markerElem.getAttribute('state');
+				//var asset_type = markerElem.getAttribute('asset_type');
+                var assettype = markerElem.getAttribute('assettype');
+                var point = new google.maps.LatLng(
+                    parseFloat(markerElem.getAttribute('lat')),
+                    parseFloat(markerElem.getAttribute('lng')));
+
+                var infowincontent = document.createElement('div');
+				var addrNoSpace = address.replace(" ","");
+				infowincontent.className = addrNoSpace;
+				//infowincontent.appendChild(document.createElement('id = "contentInsideMap"'));
+                var strong = document.createElement('strong');
+                strong.textContent = "Asset Count: " + name;
+                infowincontent.appendChild(strong);
+                infowincontent.appendChild(document.createElement('br'));
+
+                var text = document.createElement('text');
+                text.textContent = address + " , " + state.replace('+',' ');
+                infowincontent.appendChild(text);
+				infowincontent.appendChild(document.createElement('br'));
+				
+				if (assettype != null){
+					var text = document.createElement('text');
+					text.textContent = "Asset type: " + assettype;
+					infowincontent.appendChild(text);
+					infowincontent.appendChild(document.createElement('br'));
+				}
+				/*var text = document.createElement('text');
+                text.textContent = "Asset Type: " + asset_type;
+                infowincontent.appendChild(text);
+				*/
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: point,
+					icon: pic
+                });
+								
+					var listen = '.' + addrNoSpace;
+					$(document).on('click',String(listen),function(){
+						$("#leftSide").animate({
+						width: 'toggle'
+						}, 500);
+			
+						console.log("Hello, from " + address);
+					});	
+				// Marker marker = mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                marker.addListener('click', function() {
+						$("#leftSide").animate({
+						width: 'toggle'
+						}, 500);	
+                    infoWindow.setContent(infowincontent);
+                    infoWindow.open(map, marker);
+					
+                });
+
+            });
+        });
+    }
+
+	//funtion findCenter(markers)
+    function downloadUrl(url, callback) {
+        var request = window.ActiveXObject ?
+            new ActiveXObject('Microsoft.XMLHTTP') :
+            new XMLHttpRequest;
+
+        request.onreadystatechange = function() {
+            if (request.readyState == 4) {
+                request.onreadystatechange = doNothing;
+                callback(request, request.status);
+            }
+        };
+
+        request.open('GET', url, true);
+        request.send(null);
+    }
+
+    function doNothing() {}
+
+	function findCenter(arr){
+		var latArr = [];
+		var longArr = [];
+		var i = 0;
+		for (i = 0; i < arr.length; i++){
+			latArr.push(arr[i].getAttribute('lat'));
+			longArr.push(arr[i].getAttribute('lng'));
+		}
+		
+		var minLatit = Math.min.apply( Math, latArr );
+		var minLongit = Math.min.apply( Math, longArr );
+		var maxLatit = Math.max.apply( Math, latArr );
+		var maxLongit = Math.max.apply( Math, longArr );
+		
+		var centerLat = (maxLatit + minLatit) / 2;
+		var centerLong = (maxLongit + minLongit) / 2;
+		var distanceLat = (maxLatit - minLatit);
+		var distanceLong = (maxLongit - minLongit);
+		var returnZoom;
+		var mapHeight = document.getElementById('map').clientHeight;
+		var mapWidth = document.getElementById('map').clientWidth;
+		if ( (distanceLat > 40) || (distanceLong > 40)){
+			returnZoom = 4;
+		} else{
+			returnZoom = 5;
+		}
+		//returnVal = centerLong;
+		var returnLoc = new google.maps.LatLng(centerLat,centerLong);
+		var returnVal = [returnLoc,returnZoom];
+		return returnVal;
+		
+		
+		
+	}
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVKf8jt-n81FRXhuE1_LilaEBHsn1EDsY&callback=initMap">
+</script>
+</body>
+</html>
