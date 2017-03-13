@@ -271,26 +271,6 @@ downloadUrl("getCountries.php", function(data) {
 	//listener for when submit button is clicked
 	submit_button.addEventListener ("click", function() {
 
-		/*assetTypeSelectArr = document.getElementsByName("assetType");
-		filterAsset = 0;
-		checkedNumArr = [];
-		for(var curEl = 0; curEl < assetTypeSelectArr.length; curEl++){
-			if (assetTypeSelectArr[curEl].checked){
-				checkedNumArr.push(assetTypeSelectArr[curEl]);
-			}
-		}
-		if(checkedNumArr.length != assetTypeSelectArr.length){
-			filterAsset = 1;
-			AssetErrorMsg.innerHTML = "";
-
-		}*/
-		/*if(checkedNumArr.length == 0){
-			filterAsset = -1;
-			AssetErrorMsg.innerHTML = "*must select at least one asset type";
-		}else{
-				AssetErrorMsg.innerHTML = "";
-		}*/
-
 		//global variables, to be used in initmap
 		serialNumber = serialNum.value;
 		regionSelect = $('#regionSelect').val();

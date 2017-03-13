@@ -30,7 +30,6 @@ $db_selected = @mysqli_select_db($connection, $database);
 if (!$db_selected) {
 die ('Can\'t use db : ' . @mysql_error());
 }
-include 'action_test.php';
 
 $country_url = $_GET["country"];
 $type_url = $_GET["assetType"];
