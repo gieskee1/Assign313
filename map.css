@@ -1,0 +1,64 @@
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 25;
+            padding: 25;
+        }
+		.tabledata{
+			float: right;
+			margin: 0 10px 0 0;
+		}
+		span{
+			padding: 10px;
+			color: red;
+			font-size: 12px;
+		}
+		#leftSide
+		{
+			 height: 100%;
+			 width: 35%;
+			 background-color: #0000FF;
+			 float: left;
+			 display: none;    
+			 color: black;
+			 font-size: xx-large;
+
+			/*overflow: scroll;*/
+		}
+		#click{
+			 height: 25px;
+			 width: 25px;
+			 background: aqua;
+			 float: left; 
+			 margin-top: 20px;
+		}
+		#top-right{
+		
+		}
+		#top-right :hover {
+			
+			color: #CCCCCC;
+		}
+		#chart5_div.chart{
+			background-color: #00FFFF;
+		}
+		#sidepanel
+		{
+		
+		}
+		.container{
+			background-color: #0000FF;
+			height: 85%;
+		}
+		#bluebox{
+			width: 100%;
+			background-color: #CCCCCC;
+		}
+		p {
+			background-color: #0000FF;
+		}
