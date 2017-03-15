@@ -332,7 +332,7 @@ downloadUrl("search_filters/getCountries.php", function(data) {
         downloadUrl(urlSearch, function(data) {
             var xml = data.responseXML;
             var markers = xml.documentElement.getElementsByTagName('marker');
-			//no assets found
+			//no assets found...
 			if(markers.length == 0){
 				var thisvar = document.getElementById("errormsg");
 				thisvar.innerHTML = "No assets found";
