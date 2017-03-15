@@ -24,7 +24,7 @@
             var city_asset_list;
             var city_asset_count;
             $.ajax({
-                url: "city_asset_list.php",
+                url: "side_panel_charts/city_asset_list.php",
                 type: "post",
                 data: {'Lat':lat , 'Lng':lng },
                 dataType: 'json',
@@ -36,7 +36,7 @@
                 }
             });
             $.ajax({
-                url: "city_asset_count.php",
+                url: "side_panel_charts/city_asset_count.php",
                 type: "post",
                 data: {'Lat':lat , 'Lng':lng},
                 dataType: 'json',

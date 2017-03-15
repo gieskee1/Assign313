@@ -69,8 +69,8 @@
 
 <!--<button type="submit" >Submit</button>-->
 </form>
-<?php require('city_chart.php');?>
-<?php require('tables.php');?>
+<?php require('side_panel_charts/city_chart.php');?>
+<?php require('side_panel_charts/tables.php');?>
 
 
 <!--
@@ -136,7 +136,7 @@ var filterDiv = document.getElementById("filterDiv");
 			});
 			filterDiv.appendChild(document.createElement("BR"));
 //Regions select box
-downloadUrl("getRegions.php", function(data) {
+downloadUrl("search_filters/getRegions.php", function(data) {
 	var xml = data.responseXML;
     var regions = xml.documentElement.getElementsByTagName('marker');
 			var label = document.createElement('label')
@@ -166,7 +166,7 @@ downloadUrl("getRegions.php", function(data) {
 });
 
 //Countries select box			
-downloadUrl("getCountries.php", function(data) {
+downloadUrl("search_filters/getCountries.php", function(data) {
 	var xml = data.responseXML;
     var countries = xml.documentElement.getElementsByTagName('marker');
 			var label = document.createElement('label')
@@ -200,7 +200,7 @@ downloadUrl("getCountries.php", function(data) {
 	//filterDiv.appendChild(document.createElement("BR"));
 	
 //Asset Types select box			
-	downloadUrl("getAssetTypes.php", function(data) {
+	downloadUrl("search_filters/getAssetTypes.php", function(data) {
 		var xml = data.responseXML;
 		var asset_types = xml.documentElement.getElementsByTagName('marker');
 		var assetTypeArray = [];
@@ -319,7 +319,7 @@ downloadUrl("getCountries.php", function(data) {
 					assetTypeArr += checkedNumArr[i].value + "~";
 				}*/
 				//build url for php file to read from
-				var urlSearch = "db_connect_assetType.php?serial=" + serialNumber + "&region=" + regionSelect +"&country=" + countrySelect + "&assetType=" + assetTypeSelect;
+				var urlSearch = "search_filters/db_connect_assetType.php?serial=" + serialNumber + "&region=" + regionSelect +"&country=" + countrySelect + "&assetType=" + assetTypeSelect;
 			//}
 
 			//else if (filterAsset == -1) return;

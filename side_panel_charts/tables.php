@@ -20,7 +20,7 @@
             var data6 = new google.visualization.DataTable();
             var chart6 = new google.visualization.Table(document.getElementById('table_div'));
             $.ajax({
-                url: "city_table.php",
+                url: "side_panel_charts/city_table.php",
                 type: "post",
                 data: {'Lat': lat, 'Lng': lng},
                 dataType: 'json',

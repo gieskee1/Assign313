@@ -1,5 +1,5 @@
 <?php
-require("db_info.php");
+require("../db_info.php");
 //$username="username";
 //$password="password";
 //$database="egieskemaps";
