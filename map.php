@@ -4,7 +4,7 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <script>src="https://maps.googleapis.com/maps/api/js"</script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"> </script>
-	<link type="text/css" href="style.css" rel = "stylesheet">
+	<link type="text/css" href="map.css" rel = "stylesheet">
 
     <title>Asset Inventory Map</title>
     <style>
@@ -18,7 +18,7 @@
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-	<link type="text/css" href="style.css" rel = "stylesheet">
+	<link type="text/css" href="map.css" rel = "stylesheet">
 
 <div class="container">
 
@@ -26,7 +26,7 @@
 		<div id="top-right" style="font-size:120%;color:#FFFFFF;margin: 0 10px 0 0;float: right;font-family:sans-serif;font-weight:bold">
 			<label><</label>
 		</div>
-		<div style="height: 8%;background-color:#4286f4;"><img src="ge-logo-white.png" alt="GE logo" style="width:25px;height:25px;padding:5px"></div>
+		<div style="height: 8%;background-color:#4286f4;"><img src="assets/ge-logo-white.png" alt="GE logo" style="width:25px;height:25px;padding:5px"></div>
 		<div id="bluebox" style="height:10%;color:#FFFFFF;background-color:#4286f4;width:100%;font-family: sans-serif;">
 			<script>
 				sidelabel = document.createElement('text')
@@ -37,7 +37,7 @@
 			</script>
 			</div>
 		<div id="chart5_div" class = "chart" style="background-color:#FFFFFF;overflow:hidden;"></div>
-		<div id="table_div"></div>
+		<div id="table_div" class = "chart"></div>
 
 		<script>
 	//document.getElementById("leftSide").style.position = "fixed";
@@ -70,6 +70,7 @@
 <!--<button type="submit" >Submit</button>-->
 </form>
 <?php require('city_chart.php');?>
+<?php require('tables.php');?>
 
 
 <!--
@@ -80,12 +81,12 @@
 		 $("#top-right").on("click", function (event) {
 			$("#leftSide").animate({
 			width: 'toggle'
-			}, 500);
+			}, 600);
 		 });
 		$('#click').click(function() {
 		  $("#leftSide").animate({
 			width: 'toggle'
-		  }, 500);
+		  }, 600);
 		});
 
 function doNothing() {}
@@ -227,34 +228,9 @@ downloadUrl("getCountries.php", function(data) {
 			option.text = assetTypeArray[i];
 			assetTypeselectList.appendChild(option);
 		}
-		
-			
-		
-		
-		
-		
-		/*Array.prototype.forEach.call(asset_types, function(assetElem) { //asset element
-			var el = assetElem.getAttribute('asset_type');
-			if (el != ""){assetCheckArray.push(el);}
-		});
-		assetCheckboxArray = [];
-		for (var i = 0; i < assetCheckArray.length; i++) {
-			assetCheckboxArray.push(document.createElement("input"));
-			assetCheckboxArray[i].checked=true;
-			assetCheckboxArray[i].id = "assetType"
-			assetCheckboxArray[i].type = "checkbox";
-			assetCheckboxArray[i].style.margin = "0px 10px 10px 10px";
-			assetCheckboxArray[i].name = "assetType";
-			assetCheckboxArray[i].value = assetCheckArray[i];
-			var label = document.createElement('label')
-			label.htmlFor = "id";
-			label.appendChild(document.createTextNode(assetCheckArray[i]));
-			filterDiv.appendChild(assetCheckboxArray[i]);
-			filterDiv.appendChild(label);
-		}*/
 			var AssetErrorMsg = document.createElement("span");
 			filterDiv.appendChild(AssetErrorMsg);
-			
+
 	//Create submit button	
 	var submit_button = document.createElement("button");
 	submit_button.id = "submitBtn";
@@ -263,12 +239,16 @@ downloadUrl("getCountries.php", function(data) {
 	var br = document.createElement("BR");
 	filterDiv.appendChild(br);
 	filterDiv.appendChild(submit_button);
-	
+
 	//error message for when no assets were found
 	var noneFoundErrorMsg = document.createElement("span");
 	noneFoundErrorMsg.id = "errormsg";
 	filterDiv.appendChild(noneFoundErrorMsg);
 	//listener for when submit button is clicked
+
+        //repopulate country if region is clicked
+
+
 	submit_button.addEventListener ("click", function() {
 
 		//global variables, to be used in initmap
@@ -452,8 +432,10 @@ downloadUrl("getCountries.php", function(data) {
 
 							// Set a callback to run when the Google Visualization API is loaded.
 							google.setOnLoadCallback(drawCityChart);
+							google.setOnLoadCallback(drawCityTable);
 							//getValue(address);
 							drawCityChart(lat,lng);
+							drawCityTable(lat,lng);
                     infoWindow.setContent(infowincontent);
                     infoWindow.open(map, marker);
 					
