@@ -26,7 +26,7 @@
 		<div id="top-right" style="font-size:120%;color:#FFFFFF;margin: 0 10px 0 0;float: right;font-family:sans-serif;font-weight:bold">
 			<label><</label>
 		</div>
-		<div style="height: 8%;background-color:#4286f4;"><img src="ge-logo-white.png" alt="GE logo" style="width:25px;height:25px;padding:5px"></div>
+		<div style="height: 8%;background-color:#4286f4;"><img src="assets/ge-logo-white.png" alt="GE logo" style="width:25px;height:25px;padding:5px"></div>
 		<div id="bluebox" style="height:10%;color:#FFFFFF;background-color:#4286f4;width:100%;font-family: sans-serif;">
 			<script>
 				sidelabel = document.createElement('text')
