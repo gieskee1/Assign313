@@ -1,6 +1,8 @@
 <?php
 $lat = $_POST['Lat'];
 $lng = $_POST['Lng'];
+$asset_filter = $_POST['Filter'];
+
 
 $hostdb = "localhost";  // MySQl host
 $userdb = "root";  // MySQL username
@@ -10,21 +12,39 @@ $namedb = "cmdb_view";  // MySQL database name
 // Establish a connection to the database
 $dbhandle = mysqli_connect('localhost', $userdb, $passdb, $namedb);
 
+if ($asset_filter == "") {
+    $names_hold = mysqli_query($dbhandle, "SELECT `Name` as 'Name' from marker WHERE Latitude = '$lat' AND Longitude = '$lng'");//Finds list of names
+    $names = array();
 
-$names_hold = mysqli_query($dbhandle,"SELECT `Name` as 'Name' from marker WHERE Latitude = '$lat' AND Longitude = '$lng'");//Finds list of distinct asset names
-$names = array();//initialize array that will hold countries
+    $types_hold = mysqli_query($dbhandle, "SELECT `Asset type` as 'Asset Type' from marker WHERE Latitude = '$lat' AND Longitude = '$lng'");//Finds list of Assets
+    $types = array();//initialize array
 
-$types_hold = mysqli_query($dbhandle,"SELECT `Asset type` as 'Asset Type' from marker WHERE Latitude = '$lat' AND Longitude = '$lng'");//Finds list of distinct asset names
-$types = array();//initialize array that will hold countries
+    $functions_hold = mysqli_query($dbhandle, "SELECT Function as 'Function' from marker WHERE Latitude = '$lat' AND Longitude = '$lng'");//Finds list of Functions
+    $functions = array();//initialize array
 
-$functions_hold = mysqli_query($dbhandle,"SELECT Function as 'Function' from marker WHERE Latitude = '$lat' AND Longitude = '$lng'");//Finds list of distinct asset names
-$functions = array();//initialize array that will hold countries
+    $install_dates_hold = mysqli_query($dbhandle, "SELECT Installed as 'Install Date' from marker WHERE Latitude = '$lat' AND Longitude = '$lng'");//Finds list of Installs
+    $install_dates = array();//initialize array
 
-$install_dates_hold = mysqli_query($dbhandle,"SELECT Installed as 'Install Date' from marker WHERE Latitude = '$lat' AND Longitude = '$lng'");//Finds list of distinct asset names
-$install_dates = array();//initialize array that will hold countries
+    $serials_hold = mysqli_query($dbhandle, "SELECT `Serial number` as 'Serial number' from marker WHERE Latitude = '$lat' AND Longitude = '$lng'");//Finds list of Serials
+    $serials = array();//initialize array
+}
+else{
+    $names_hold = mysqli_query($dbhandle, "SELECT `Name` as 'Name' from marker WHERE Latitude = '$lat' AND Longitude = '$lng' AND `Asset Type` = '$asset_filter'");//Finds list of names
+    $names = array();
 
-$serials_hold = mysqli_query($dbhandle,"SELECT `Serial number` as 'Serial number' from marker WHERE Latitude = '$lat' AND Longitude = '$lng'");//Finds list of distinct asset names
-$serials = array();//initialize array that will hold countries
+    $types_hold = mysqli_query($dbhandle, "SELECT `Asset type` as 'Asset Type' from marker WHERE Latitude = '$lat' AND Longitude = '$lng'AND `Asset Type` = '$asset_filter'");//Finds list of Assets
+    $types = array();//initialize array
+
+    $functions_hold = mysqli_query($dbhandle, "SELECT Function as 'Function' from marker WHERE Latitude = '$lat' AND Longitude = '$lng'AND `Asset Type` = '$asset_filter'");//Finds list of Functions
+    $functions = array();//initialize array
+
+    $install_dates_hold = mysqli_query($dbhandle, "SELECT Installed as 'Install Date' from marker WHERE Latitude = '$lat' AND Longitude = '$lng'AND `Asset Type` = '$asset_filter'");//Finds list of Installs
+    $install_dates = array();//initialize array
+
+    $serials_hold = mysqli_query($dbhandle, "SELECT `Serial number` as 'Serial number' from marker WHERE Latitude = '$lat' AND Longitude = '$lng'AND `Asset Type` = '$asset_filter'");//Finds list of Serials
+    $serials = array();//initialize array
+}
+
 
 $count = 0;//initiallize count of countries
 while(($row = $names_hold -> fetch_assoc())!==null){
