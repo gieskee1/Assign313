@@ -109,6 +109,7 @@ echo '<markers>';
 	$longArr = array();
 	$countArr = array();
 	$assetArr = array();
+	$loc_codeArr = array();
 
     // Iterate through the rows, printing XML nodes for each
     while ($row = @mysqli_fetch_assoc($result)){
@@ -120,10 +121,12 @@ echo '<markers>';
 		// Add to XML document node
 		$lat = $row['Latitude'];
 		$long = $row['Longitude'];
+		$loc_code = $row['Location Code'];
 		$repeated = 0;
 		for($i = 0; $i < count($latArr); $i++){
 			if( ($latArr[$i] == $lat) && ($longArr[$i] == $long)){
-				$countArr[$i] = $countArr[$i] + $row['COUNT'] + 0;
+				$countArr[$i] = $countArr[$i] + $row['COUNT'];
+				//console.log($countArr[$i]);
 				$assetArr[$i] = $assetArr[$i] . ", " . $row['Asset type'];
 				$finalCount = $i;
 				$i = count($latArr); //break;
@@ -146,6 +149,7 @@ echo '<markers>';
 		echo 'state="' . $state . '" ';
 		echo 'lat="' . $row['Latitude'] . '" ';
 		echo 'lng="' . $row['Longitude'] . '" ';
+		echo 'loc_code="' . $row['Location Code'] . '" ';
 		if ($repeated == 0){
 			echo 'assettype="' . $assetArr[$finalCount] . '" ';
 		}
