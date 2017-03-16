@@ -27,7 +27,7 @@
 			<label><</label>
 		</div>
 		<div style="height: 8%;background-color:#4286f4;"><img src="assets/ge-logo-white.png" alt="GE logo" style="width:25px;height:25px;padding:5px"></div>
-		<div id="bluebox" style="height:10%;color:#FFFFFF;background-color:#4286f4;width:100%;font-family: sans-serif;">
+		<div id="bluebox" style="height:13%;color:#FFFFFF;background-color:#4286f4;width:100%;font-family: sans-serif;">
 			<script>
 				sidelabel = document.createElement('text')
 				sidelabel.id = "sidepaneltext";
@@ -35,9 +35,9 @@
 				sidelabel.style.padding = "20px";
 				bluebox.appendChild(sidelabel);
 			</script>
-			</div>
-		<div id="chart5_div" class = "chart" style="background-color:#FFFFFF;overflow:hidden;"></div>
-		<div id="table_div" class = "chart"></div>
+        </div>
+		<div id="chart5_div" class = "chart" style= "height= 50%; width= 120%;"></div>
+		<div id="table_div" class = "chart" style = "height = 40%; width = 100%;"></div>
 
 		<script>
 	//document.getElementById("leftSide").style.position = "fixed";
@@ -69,9 +69,7 @@
 
 <!--<button type="submit" >Submit</button>-->
 </form>
-<?php require('city_chart.php');?>
-<?php require('tables.php');?>
-
+<?php require('side_panel_charts/city_chart.php');?>
 
 <!--
 <div id="chart_div" class = "chart"></div>
@@ -136,10 +134,11 @@ var filterDiv = document.getElementById("filterDiv");
 			});
 			filterDiv.appendChild(document.createElement("BR"));
 //Regions select box
-downloadUrl("getRegions.php", function(data) {
+//Use the region to filter the countries so that they are valid
+downloadUrl("search_filters/getRegions.php", function(data) {
 	var xml = data.responseXML;
     var regions = xml.documentElement.getElementsByTagName('marker');
-			var label = document.createElement('label')
+			var label = document.createElement('label');
 			label.htmlFor = "id";
 			label.appendChild(document.createTextNode("Region"));
 			filterDiv.appendChild(label);
@@ -166,7 +165,7 @@ downloadUrl("getRegions.php", function(data) {
 });
 
 //Countries select box			
-downloadUrl("getCountries.php", function(data) {
+downloadUrl("search_filters/getCountries.php", function(data) {
 	var xml = data.responseXML;
     var countries = xml.documentElement.getElementsByTagName('marker');
 			var label = document.createElement('label')
@@ -200,7 +199,7 @@ downloadUrl("getCountries.php", function(data) {
 	//filterDiv.appendChild(document.createElement("BR"));
 	
 //Asset Types select box			
-	downloadUrl("getAssetTypes.php", function(data) {
+	downloadUrl("search_filters/getAssetTypes.php", function(data) {
 		var xml = data.responseXML;
 		var asset_types = xml.documentElement.getElementsByTagName('marker');
 		var assetTypeArray = [];
@@ -319,7 +318,7 @@ downloadUrl("getCountries.php", function(data) {
 					assetTypeArr += checkedNumArr[i].value + "~";
 				}*/
 				//build url for php file to read from
-				var urlSearch = "db_connect_assetType.php?serial=" + serialNumber + "&region=" + regionSelect +"&country=" + countrySelect + "&assetType=" + assetTypeSelect;
+				var urlSearch = "search_filters/db_connect_assetType.php?serial=" + serialNumber + "&region=" + regionSelect +"&country=" + countrySelect + "&assetType=" + assetTypeSelect;
 			//}
 
 			//else if (filterAsset == -1) return;
@@ -383,6 +382,7 @@ downloadUrl("getCountries.php", function(data) {
                 var point = new google.maps.LatLng( parseFloat(markerElem.getAttribute('lat')), parseFloat(markerElem.getAttribute('lng')));
                 var lat = markerElem.getAttribute('lat');
                 var lng = markerElem.getAttribute('lng');
+                var loc_code = markerElem.getAttribute('loc_code');
 				var infowincontent = document.createElement('div');
 				var addrNoSpace = address.replace(" ","");
 				infowincontent.className = addrNoSpace;
@@ -427,7 +427,7 @@ downloadUrl("getCountries.php", function(data) {
 						$("#leftSide").animate({
 						width: 'show'
 						}, 500);	
-					sidelabel.innerHTML = address;
+					sidelabel.innerHTML = address + "<br>"+"<font size='3'>" + "Location: </font>"+"<font size='3'> " + loc_code + "</font>";
 							google.load('visualization', '1', {'packages':['corechart','table']});
 
 							// Set a callback to run when the Google Visualization API is loaded.
