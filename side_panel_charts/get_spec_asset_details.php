@@ -2,7 +2,9 @@
 $lat = $_POST['Lat'];
 $lng = $_POST['Lng'];
 $serialNum = $_POST['SerialNum'];
-
+//$lat ='34.0964446';
+//$lng ='-84.2374395';
+//$serialNum='CK';
 $hostdb = "localhost";  // MySQl host
 $userdb = "root";  // MySQL username
 $passdb = "root";  // MySQL password
@@ -12,12 +14,12 @@ $namedb = "cmdb_view";  // MySQL database name
 $dbhandle = mysqli_connect('localhost', $userdb, $passdb, $namedb);
 
 
-$names_hold = mysqli_query($dbhandle,"SELECT `Name` as 'Name' from marker WHERE Latitude = '$lat' AND Longitude = '$lng' AND `Serial Number` LIKE  '%" . $serialNum . "%'");//Finds list of distinct asset names
+$names_hold = mysqli_query($dbhandle,"SELECT `Name` as 'Name' from marker WHERE Latitude = '$lat' AND Longitude = '$lng' AND (`Serial Number` LIKE  '%$serialNum%' OR `Name` LIKE '%$serialNum%')");//Finds list of distinct asset names
 $names = array();//initialize array that will hold countries
 $count = 0;
 
 while(($row = $names_hold -> fetch_assoc())!==null){
-    $names[$count] = $row['Assets'];//fill up array of country names (will be used to filter graphs)
+    $names[$count] = $row['Name'];//fill up array of country names (will be used to filter graphs)
     $count = $count + 1;
 }
 

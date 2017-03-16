@@ -7,6 +7,9 @@
             var assetName = "<strong>Asset Name: </strong>";
             $("#chart5_div").append("<br>","<br>",assetName);
             var asset_details;
+            console.log(serialNumber);
+            console.log(lat);
+            console.log(lng);
             $.ajax({
                 url: "side_panel_charts/get_spec_asset_details.php",
                 type: "post",
