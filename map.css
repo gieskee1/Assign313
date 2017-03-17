@@ -22,7 +22,7 @@
 		{
 			 height: 100%;
 			 width: 35%;
-			 background-color: #0000FF;
+			 background-color: #CCCCCC;
 			 float: left;
 			 display: none;    
 			 color: black;
@@ -52,7 +52,7 @@
 		
 		}
 		.container{
-			background-color: #0000FF;
+			background-color: #CCCCCC;
 			height: 85%;
 		}
 		#bluebox{
