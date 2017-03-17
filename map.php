@@ -436,16 +436,7 @@ downloadUrl("search_filters/getCountries.php", function(data) {
 						}, 500);	
 
 					sidelabel.innerHTML = address + "<br>"+"<font size='3'>" + "Location: </font>"+"<font size='3'> " + loc_code + "</font>";
-							google.load('visualization', '1', {'packages':['corechart','table']});
 
-							// Set a callback to run when the Google Visualization API is loaded.
-							google.setOnLoadCallback(drawCityChart);
-							google.setOnLoadCallback(drawCityTable);
-							//getValue(address);
-							drawCityChart(lat,lng);
-							drawCityTable(lat,lng);
-
-					sidelabel.innerHTML = address;
                     if (isSerialNum == false){
                             google.load('visualization', '1', {'packages': ['corechart', 'table']});
 
