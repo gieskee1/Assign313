@@ -70,6 +70,8 @@
 <!--<button type="submit" >Submit</button>-->
 </form>
 <?php require('side_panel_charts/city_chart.php');?>
+<?php require('side_panel_charts/specific_asset_details.php');?>
+
 
 <!--
 <div id="chart_div" class = "chart"></div>
@@ -118,23 +120,28 @@ var filterDiv = document.getElementById("filterDiv");
 			serialNum.placeholder = "serial number/name";
 			serialNum.style.margin = "10px 0 0 10px";
 			filterDiv.appendChild(serialNum);
+			isSerialNum = false; //to be used for side panel modification
 			//listener to disable/enable other fields if serialNum has input
 			$("#serialNum").on("input", function() {
 				if(this.value != ""){	
 					//disable
 					document.getElementById("countrySelect").disabled = true; 
 					document.getElementById("regionSelect").disabled = true; 
-					document.getElementById("assetTypeSelect").disabled = true;		
+					document.getElementById("assetTypeSelect").disabled = true;
+					isSerialNum = true; //side panel will modify
 				}else{
 					//enable
 					document.getElementById("countrySelect").disabled = false;
 					document.getElementById("regionSelect").disabled = false;
 					document.getElementById("assetTypeSelect").disabled = false;
+					isSerialNum = false;
 				}
 			});
 			filterDiv.appendChild(document.createElement("BR"));
 //Regions select box
+
 //Use the region to filter the countries so that they are valid
+
 downloadUrl("search_filters/getRegions.php", function(data) {
 	var xml = data.responseXML;
     var regions = xml.documentElement.getElementsByTagName('marker');
@@ -257,7 +264,7 @@ downloadUrl("search_filters/getCountries.php", function(data) {
 		assetTypeSelect = $('#assetTypeSelect').val();
 		event.preventDefault(); //do not refresh page (will prevent url to be visibly changed)
 		
-		if(assetTypeSelect == null){
+		if(assetTypeSelect == null && isSerialNum == false){
 					//filterAsset = -1;
 					AssetErrorMsg.innerHTML = "*must select at least one asset type";
 		}else{
@@ -331,7 +338,7 @@ downloadUrl("search_filters/getCountries.php", function(data) {
         downloadUrl(urlSearch, function(data) {
             var xml = data.responseXML;
             var markers = xml.documentElement.getElementsByTagName('marker');
-			//no assets found
+			//no assets found...
 			if(markers.length == 0){
 				var thisvar = document.getElementById("errormsg");
 				thisvar.innerHTML = "No assets found";
@@ -427,6 +434,7 @@ downloadUrl("search_filters/getCountries.php", function(data) {
 						$("#leftSide").animate({
 						width: 'show'
 						}, 500);	
+
 					sidelabel.innerHTML = address + "<br>"+"<font size='3'>" + "Location: </font>"+"<font size='3'> " + loc_code + "</font>";
 							google.load('visualization', '1', {'packages':['corechart','table']});
 
@@ -436,6 +444,43 @@ downloadUrl("search_filters/getCountries.php", function(data) {
 							//getValue(address);
 							drawCityChart(lat,lng);
 							drawCityTable(lat,lng);
+
+					sidelabel.innerHTML = address;
+                    if (isSerialNum == false){
+                            google.load('visualization', '1', {'packages': ['corechart', 'table']});
+
+                            // Set a callback to run when the Google Visualization API is loaded.
+                            google.setOnLoadCallback(drawCityChart);
+                            google.setOnLoadCallback(drawCityTable);
+                            //getValue(address);
+
+                            drawCityChart(lat, lng);
+                            drawCityTable(lat, lng);
+                    }else{
+                          $("#chart5_div").html("");
+                          $("#table_div").html("");
+                          var summaryLink = "<a class='button' id='summaryLink'> < Back to Location Summary</a>";
+
+                          $("#chart5_div").append(summaryLink);
+
+                          displaySpecAssetDetails(serialNumber,lat,lng);
+
+                        var linkToSummary = document.getElementById("summaryLink");
+                        linkToSummary.onclick = function(){
+                            google.load('visualization', '1', {'packages': ['corechart', 'table']});
+
+                            // Set a callback to run when the Google Visualization API is loaded.
+                            google.setOnLoadCallback(drawCityChart);
+                            google.setOnLoadCallback(drawCityTable);
+                            //getValue(address);
+
+                            drawCityChart(lat, lng);
+                            drawCityTable(lat, lng);
+                        }
+
+                    }
+
+
                     infoWindow.setContent(infowincontent);
                     infoWindow.open(map, marker);
 					

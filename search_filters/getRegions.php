@@ -1,3 +1,4 @@
+
 <?php
 require("../db_info.php");
 //$username="username";
@@ -47,5 +48,4 @@ echo '<markers>';
 
     // End XML file
     echo '</markers>';
-
 ?>

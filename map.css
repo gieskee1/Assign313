@@ -38,14 +38,19 @@
 			 margin-top: 20px;
 		}
 		#top-right{
-		
+			cursor: pointer;
+
 		}
 		#top-right :hover {
-			
+			cursor: pointer;
+
 			color: #CCCCCC;
 		}
 		#chart5_div.chart{
 			background-color: #FFFFFF;
+			color: #4286f4;
+			font-family:sans-serif;
+			font-size: 18px;
 		}
 		#sidepanel
 		{
@@ -61,4 +66,20 @@
 		}
 		p {
 			background-color: #0000FF;
+		}
+		#chart5_div{
+			color: #4286f4;
+		}
+		.button{
+			background: none;
+			border: none;
+			font-family:sans-serif;
+			font-size: 12px;
+			cursor: pointer;
+			color: #3366BB;
+		}
+		.button:hover{
+			color: #CCCCCC;
+			cursor: pointer;
+
 		}
